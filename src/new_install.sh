@@ -71,7 +71,7 @@ sudo apt-get purge -y unity-lens-shopping
 echo "Unneccesary packages removed..."
 
 # Get dotfiles from github
-cd ~/
+cd
 git clone https://github.com/shanahanjrs/dotfiles ~/dotfiles
 cat ~/dotfiles/bashrc > ~/.bashrc
 cat ~/dotfiles/vimrc > ~/.vimrc
