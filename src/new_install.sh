@@ -4,6 +4,26 @@
 #-------------------------- new_install.sh ---------------------------#
 # Run this after a fresh install of *buntu or any other Debian distro #
 #---------------------------------------------------------------------#
+
+#---------------------------------------------------------------------#
+#new_install.sh   -- Install and configure a new system in minutes
+#                    Copyright (C) 2013, John Shanahan
+#
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    (at your option) any later version.
+#
+#    This program is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY; without even the implied warranty of
+#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#    GNU General Public License for more details.
+#
+#    You should have received a copy of the GNU General Public License
+#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#---------------------------------------------------------------------#
+
+
 echo "Starting new_install.sh\n
 This will tweak your new linux install to your specifications.\n
 Beware, this could take a very long time!\n"
