@@ -27,32 +27,32 @@ echo "Updating and upgrading packages first ..."
 sudo apt-get -y update
 sudo apt-get -y upgrade
 
-# sudo apt-get install -y ubuntu-tweak
-# sudo apt-get install -y gnome-shell gnome-tweak-tool gnome-shell-extensions
-# sudo apt-get install -y compiz compiz-gnome
-
 # Create backup of /etc/apt/sources.list before modifying
-cp /etc/apt/sources.list /etc/apt/sources.list.BACKUP
+echo "Creating backup of /etc/apt/sources.list ..."
+sudo cp /etc/apt/sources.list /etc/apt/sources.list.BACKUP
 
 # Add repo for Spotify, it will be added under 'Add packages'
-echo "" >> /etc/apt/sources.list
-echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list
+sudo echo "" >> /etc/apt/sources.list
+sudo echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list
 sudo apt-key adv --keyserver keyserver.ubuntu.com:80 --recv-keys 94558F59
 sudo apt-get update
 
 # Add packages
 echo "Adding packages..."
-sudo apt-get install -y vim gvim
-sudo apt-get install -y g++
-sudo apt-get install -y clang
+sudo apt-get install -y vim gvim aptitude ubuntu-restricted-extras
+sudo apt-get install -y python python3 python3-docutils python-dev
+sudo apt-get install -y gcc nmap clang
+sudo apt-get install -y default-jre filezilla openssh openssh-server vsftpd
+sudo apt-get install -y php mcrypt htop sysv-rc-conf nethack
+sudo apt-get install -y transmission irssi build-essential make cmake autoconf
 sudo apt-get install -y wget curl iptables git-core git-flow
-sudo apt-get install -y gimp unetbootin
+sudo apt-get install -y gimp unetbootin nautilus-dropbox
 sudo apt-get install -y transmission vlc spotify-client
-sudo apt-get install -y bluefish phpmyadmin
+sudo apt-get install -y bluefish phpmyadmin git
 echo "Packages added..."
 
 # Add / Setup Git
-sudo apt-get install git
+echo "Configuring git"
 git config --global user.name "John Shanahan"
 git config --global user.email "shanahan.jrs@gmail.com"
 git config --global credential.helper cache
@@ -60,17 +60,18 @@ git config --global credential.helper 'cache --timeout=3600'
 
 # Remove packages
 echo "Removing unneccesary packages..."
-sudo apt-get purge -y whoopsie
-sudo apt-get purge -y ubuntuone-client
-sudo apt-get purge -y unity-lens-shopping
+sudo apt-get purge -y whoopsie rhythombox evolution
+sudo apt-get purge -y ubuntuone-client thunderbird
+sudo apt-get purge -y unity-lens-shopping shotwell
 echo "Unneccesary packages removed..."
 
 # Get dotfiles from github
-# cd
-# git clone https://github.com/shanahanjrs/dotfiles ~/dotfiles
-# cat ~/dotfiles/bashrc > ~/.bashrc
-# cat ~/dotfiles/vimrc > ~/.vimrc
-# cat ~/dotfiles/inputrc > ~/.inputrc
-# cat ~/dotfiles/screenrc > ~/.screenrc
-# cat ~/dotfiles/NERDTreeBookmars > ~/.NERDTreeBookmarks
+echo "Restoring dotfiles ..."
+cd
+sudo git clone https://github.com/shanahanjrs/dotfiles ~/dotfiles
+sudo cat ~/dotfiles/bashrc > ~/.bashrc
+sudo cat ~/dotfiles/vimrc > ~/.vimrc
+sudo cat ~/dotfiles/inputrc > ~/.inputrc
+sudo cat ~/dotfiles/screenrc > ~/.screenrc
+sudo cat ~/dotfiles/NERDTreeBookmars > ~/.NERDTreeBookmarks
 
