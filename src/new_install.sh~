@@ -39,6 +39,12 @@ sudo apt-get -y upgrade
 echo "Creating backup of /etc/apt/sources.list ..."
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.BACKUP
 
+# Add repo for Spotify, it will be added under 'Add packages'
+sudo echo "" >> /etc/apt/sources.list
+sudo echo "deb http://repository.spotify.com stable non-free" >> /etc/apt/sources.list
+sudo apt-key adv --keyserver keyserver.ubuntu.com:80 --recv-keys 94558F59
+sudo apt-get update
+
 # Add packages
 echo "Adding packages..."
 sudo apt-get install -y vim gvim aptitude ubuntu-restricted-extras
@@ -49,7 +55,7 @@ sudo apt-get install -y php mcrypt htop sysv-rc-conf nethack
 sudo apt-get install -y transmission irssi build-essential make cmake autoconf
 sudo apt-get install -y wget curl iptables git-core git-flow
 sudo apt-get install -y gimp unetbootin nautilus-dropbox
-sudo apt-get install -y transmission vlc
+sudo apt-get install -y transmission vlc spotify-client
 sudo apt-get install -y bluefish phpmyadmin git
 echo "Packages added..."
 
@@ -59,8 +65,6 @@ git config --global user.name "John Shanahan"
 git config --global user.email "shanahan.jrs@gmail.com"
 git config --global credential.helper cache
 git config --global credential.helper 'cache --timeout=3600'
-git config --global push.default matching
-
 
 # Remove packages
 echo "Removing unneccesary packages..."
