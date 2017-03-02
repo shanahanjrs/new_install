@@ -20,16 +20,6 @@
 
 # --- Functions
 
-function linux_or_osx {
-    uname=$(uname)
-    if [[ "${uname}" == "Linux" ]]; then
-        export os="Linux"
-    elif [[ "${uname}" == "Darwin" ]]; then
-        export os="MacOS"
-    fi
-}
-
-
 function check_root {
     printf "Checking UID...\n"
     if (( EUID != 0 )); then
@@ -44,25 +34,24 @@ function check_root {
 function install_linux {
     #Do updates first
     echo "Updating and upgrading packages first ..."
-    sudo apt-get -y update
-    sudo apt-get -y upgrade
+    apt-get -y update
+    apt-get -y upgrade
 
     # Create backup of /etc/apt/sources.list before modifying
     echo "Creating backup of /etc/apt/sources.list ..."
-    sudo cp /etc/apt/sources.list /etc/apt/sources.list.BACKUP
+    cp /etc/apt/sources.list /etc/apt/sources.list.BACKUP
 
     # Add packages
     echo "Adding packages..."
-    sudo apt-get install -y vim gvim aptitude ubuntu-restricted-extras
-    sudo apt-get install -y python python3 python3-docutils python-dev
-    sudo apt-get install -y gcc nmap clang
-    sudo apt-get install -y default-jre filezilla openssh openssh-server vsftpd
-    sudo apt-get install -y php mcrypt htop sysv-rc-conf nethack
-    sudo apt-get install -y transmission irssi build-essential make cmake autoconf
-    sudo apt-get install -y wget curl iptables git-core git-flow
-    sudo apt-get install -y gimp unetbootin nautilus-dropbox
-    sudo apt-get install -y transmission vlc
-    sudo apt-get install -y bluefish phpmyadmin git
+    apt-get install -y vim gvim aptitude ubuntu-restricted-extras
+    apt-get install -y python python3 python3-docutils python-dev
+    apt-get install -y gcc nmap clang
+    apt-get install -y default-jre filezilla openssh openssh-server vsftpd
+    apt-get install -y php mcrypt htop sysv-rc-conf nethack
+    apt-get install -y transmission irssi build-essential make cmake autoconf
+    apt-get install -y wget curl iptables git-core git-flow
+    apt-get install -y gimp unetbootin nautilus-dropbox
+    apt-get install -y bluefish phpmyadmin git vlc
     echo "Packages added..."
 
     # Add / Setup Git
@@ -76,9 +65,9 @@ function install_linux {
 
     # Remove packages
     echo "Removing unneccesary packages..."
-    sudo apt-get purge -y whoopsie rhythombox evolution
-    sudo apt-get purge -y ubuntuone-client thunderbird
-    sudo apt-get purge -y unity-lens-shopping shotwell
+    apt-get purge -y whoopsie rhythombox evolution
+    apt-get purge -y ubuntuone-client thunderbird
+    apt-get purge -y unity-lens-shopping shotwell
     echo "Unneccesary packages removed..."
 
     # Remember to fix sudoers!
@@ -86,32 +75,36 @@ function install_linux {
 
     # Get dotfiles from github
     echo "Restoring dotfiles ..."
-    cd
-    sudo git clone https://github.com/shanahanjrs/dotfiles ~/dotfiles
-    sudo cat ~/dotfiles/bashrc > ~/.bashrc
-    sudo cat ~/dotfiles/vimrc > ~/.vimrc
-    sudo cat ~/dotfiles/inputrc > ~/.inputrc
-    sudo cat ~/dotfiles/screenrc > ~/.screenrc
-    sudo cat ~/dotfiles/NERDTreeBookmars > ~/.NERDTreeBookmarks
+    mkdir ~/prog && cd ~/prog || exit
+    git clone https://github.com/shanahanjrs/dotfiles
+    cd dotfiles && ./copyfiles.sh
 }
 
-function install_osx {
+function install_macos {
     # Get brew
     usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 
-    brogue        ffmpeg        glib        isl        libmpc        libvo-aacenc    neo4j        php56        redis        tpp        zlib
-    cloog        fish        gmp        jasper        libpng        libxml2        neovim        php56-mcrypt    rtorrent    unixodbc    zsh
-    cmake        fontconfig    go        jpeg        libtiff        little-cms2    node        phpdocumentor    scons        webp
-    composer    freetype    haskell-stack    jrnl        libtommath    macvim        numpy        phpunit        shellcheck    wget
-
     # Brew packages to install
     packages1="zsh oh-my-zsh gcc htop-osx libtool libtorrent mcrypt openssl python python3 x264 erlang irssi shellcheck haskell-stack"
-    packages2="glib neo4j php56 php56-mcrypt phpunit composer rtorrent go libtiff libtomath numpy wget"
+    packages2="glib neo4j php56 php56-mcrypt phpunit composer rtorrent go libtiff libtomath numpy wget elasticsearch logstash kibana"
     brewpackages="${packages1} ${packages2}"
 
     # Install brew packages
     brew install "${brewpackages}"
 
+    # Add / Setup Git
+    echo "Configuring git"
+    git config --global user.name "John Shanahan"
+    git config --global user.email "shanahan.jrs@gmail.com"
+    git config --global credential.helper cache
+    git config --global credential.helper 'cache --timeout=3600'
+    git config --global push.default matching
+
+    # Get dotfiles from github
+    echo "Restoring dotfiles ..."
+    mkdir ~/prog && cd ~/prog || exit
+    git clone https://github.com/shanahanjrs/dotfiles
+    cd dotfiles && ./copyfiles.sh
 }
 
 # --- Main
@@ -123,21 +116,19 @@ echo "=============="
 # Privs
 check_root
 
-# Get OS
-linux_or_osx
-
 # Run
-case "${os}" in
+case "$(uname)" in
 
     "Linux")
-        # Blah
+        install_linux
         ;;
-    "MacOS")
-        # Blah but on a mac
+    "Darwin")
+        install_macos
         ;;
     *)
-        # Blah but somewhere else
+        echo 'Case statement hit default...'
         ;;
  
 esac
 
+echo 'Done...'
