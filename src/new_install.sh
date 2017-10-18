@@ -51,7 +51,7 @@ function install_linux {
     apt-get install -y transmission irssi build-essential make cmake autoconf
     apt-get install -y wget curl iptables git-core git-flow
     apt-get install -y gimp unetbootin nautilus-dropbox
-    apt-get install -y bluefish phpmyadmin git vlc
+    apt-get install -y bluefish phpmyadmin git tig vlc
     echo "Packages added..."
 
     # Add / Setup Git
@@ -86,7 +86,7 @@ function install_macos {
 
     # Brew packages to install
     packages1="zsh oh-my-zsh gcc htop-osx libtool libtorrent mcrypt openssl python python3 x264 erlang irssi shellcheck haskell-stack"
-    packages2="glib neo4j php56 php56-mcrypt phpunit composer rtorrent go libtiff libtomath numpy wget elasticsearch logstash kibana"
+    packages2="glib neo4j tig iterm2 phpunit composer rtorrent go libtiff libtomath numpy wget elasticsearch logstash kibana"
     brewpackages="${packages1} ${packages2}"
 
     # Install brew packages
